@@ -10,36 +10,47 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
 public class EmployeeDaoImpl implements  EmployeeDAO{
     @Autowired
     SessionFactory sessionFactory;
-    public List<Employee> getEmployees() {
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Employee> getEmployees(){
         Session session = sessionFactory.getCurrentSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery< Employee > cq = cb.createQuery(Employee.class);
-        Root< Employee > root = cq.from(Employee.class);
-        cq.select(root);
-        Query query = session.createQuery(cq);
-        return query.getResultList();
+        List<Employee> EmployeesList = session.createQuery("from Employee").list();
+        return EmployeesList;
     }
 
+    @Override
     public void saveEmployee(Employee employee) {
-        Session currentSession = sessionFactory.getCurrentSession();
-        currentSession.saveOrUpdate(employee);
+        Session session = sessionFactory.getCurrentSession();
+        session.merge(employee);
     }
 
+    @Override
+    public void updateEmployee(Employee employee) {
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(employee);
+    }
+
+    @Override
     public Employee getEmployee(int id) {
-        Session currentSession = sessionFactory.getCurrentSession();
-        Employee employee = currentSession.get(Employee.class, id);
+        Session session = sessionFactory.getCurrentSession();
+        Employee employee = (Employee) session.get(Employee.class, id);
         return employee;
     }
 
+    @Override
     public void deleteEmployee(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Employee employee = session.byId(Employee.class).load(id);
-        session.delete(employee);
+        Employee employee = (Employee) session.get(Employee.class, id);
+        if(null != employee){
+            session.delete(employee);
+        }
     }
 }

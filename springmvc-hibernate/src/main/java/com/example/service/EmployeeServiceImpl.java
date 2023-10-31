@@ -28,4 +28,6 @@ public class EmployeeServiceImpl implements EmployeeService{
     public void deleteEmployee(int id) {
        employeeDAO.deleteEmployee(id);
     }
+
+    public void updateEmployee(Employee employee){ employeeDAO.updateEmployee(employee);}
 }
