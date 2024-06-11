@@ -7,6 +7,12 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: openapi
+          uri: http://localhost:${server.port}
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
         - id : USER-SERVICE
           uri : lb://USERSERVICE
           predicates:
@@ -20,6 +26,28 @@ spring:
           predicates:
             - Path=/ratings/**
 
+springdoc:
+  cache:
+    disabled: true
+  version: '@springdoc.version@'
+  swagger-ui:
+    use-root-path: true
+  api-docs:
+    version: openapi_3_1
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - "gateway"
+  endpoint:
+    gateway:
+      enabled: true
+    health:
+      show-details: always
+
 eureka:
   instance:
     prefer-ip-address: true
@@ -28,4 +56,5 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
+
 
