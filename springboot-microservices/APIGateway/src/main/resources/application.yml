@@ -8,34 +8,42 @@ spring:
     gateway:
       routes:
         - id: openapi
-          uri: http://localhost:${server.port}
+          uri: lb://APIGATEWAY
           predicates:
             - Path=/v3/api-docs/**
           filters:
-            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+            - RewritePath=/v3/api-docs/(?<segment>.*), /${segment}/v3/api-docs
         - id : USER-SERVICE
           uri : lb://USERSERVICE
           predicates:
-            - Path=/users/**
+            - Path=/users/**,/user-service/api-docs
         - id: HOTEL-SERVICE
           uri: lb://HOTELSERVICE
           predicates:
-            - Path=/hotels/**
+            - Path=/hotels/**, /hotel-service/api-docs
         - id: RATING-SERVICE
           uri: lb://RATINGSERVICE
           predicates:
-            - Path=/ratings/**
+            - Path=/ratings/**, /rating-service/api-docs
+    discovery:
+      enabled: true
 
 springdoc:
-  cache:
-    disabled: true
-  version: '@springdoc.version@'
-  swagger-ui:
-    use-root-path: true
   api-docs:
-    version: openapi_3_1
-
-
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    urls:
+#      - url: /v3/api-docs
+#        name: API Gateway Service
+      - url: /user-service/api-docs
+        name: User Service
+      - url: /rating-service/api-docs
+        name: Rating Service
+      - url: /hotel-service/api-docs
+        name: Hotel Service
 management:
   endpoints:
     web:

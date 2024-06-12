@@ -19,13 +19,17 @@ spring:
   config:
     import: optional:configserver:http://localhost:8085
 
+# Swagger Documentation
+openapi:
+  service:
+    title: Rating Service Documentation
+    version: 3.0.1
+    url: lb://APIGATEWAY #api gateway url
 springdoc:
-  cache:
-    disabled: true
   swagger-ui:
-    path: /swagger-ui.html
+    path: /hotel-service/swagger-ui.html
   api-docs:
-    path: /api-docs
+    path: /hotel-service/api-docs
     
 #eureka:
 #  instance:
