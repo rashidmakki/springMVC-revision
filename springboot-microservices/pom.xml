@@ -9,12 +9,13 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>ServiceRegistry</module>
-        <module>ConfigServer</module>
-        <module>APIGateway</module>
-        <module>UserService</module>
-        <module>HotelService</module>
-        <module>RatingService</module>
+        <module> ServiceRegistry </module>
+        <module> ConfigServer </module>
+        <module> AuthService </module>
+        <module> APIGateway </module>
+        <module> UserService </module>
+        <module> HotelService </module>
+        <module> RatingService </module>
     </modules>
 
 </project>

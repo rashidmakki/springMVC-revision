@@ -6,6 +6,14 @@ spring:
     name: API-GATEWAY
   cloud:
     gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
       routes:
         - id: openapi
           uri: lb://APIGATEWAY
@@ -25,6 +33,10 @@ spring:
           uri: lb://RATINGSERVICE
           predicates:
             - Path=/ratings/**, /rating-service/api-docs
+        - id: AUTH-SERVICE
+          uri: lb://AUTH
+          predicates:
+            - Path=/auth-service/api-docs,/auth/**, /home/**
     discovery:
       enabled: true
 
@@ -38,6 +50,8 @@ springdoc:
     urls:
 #      - url: /v3/api-docs
 #        name: API Gateway Service
+      - url: /auth-service/api-docs
+        name: Auth Service
       - url: /user-service/api-docs
         name: User Service
       - url: /rating-service/api-docs
