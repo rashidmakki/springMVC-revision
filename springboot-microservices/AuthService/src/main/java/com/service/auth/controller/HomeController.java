@@ -2,6 +2,7 @@ package com.service.auth.controller;
 
 import  com.service.auth.model.User;
 import  com.service.auth.service.SecurityCustomUserDetailService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/home")
+@SecurityRequirement(name = "Authorization")
 public class HomeController {
 
     Logger logger = LoggerFactory.getLogger(HomeController.class);
