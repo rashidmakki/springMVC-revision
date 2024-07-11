@@ -1,4 +1,4 @@
-package com.gateway.apigateway;
+package com.gateway.apigateway.config;
 
 import org.springdoc.core.properties.SwaggerUiConfigParameters;
 import org.springframework.boot.CommandLineRunner;

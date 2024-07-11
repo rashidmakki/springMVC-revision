@@ -3,6 +3,7 @@ package com.user.service.userservice.controllers;
 import com.user.service.userservice.entities.User;
 import com.user.service.userservice.services.UserService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@SecurityRequirement(name = "Authorization")
 public class UserController {
 
     Logger logger = LoggerFactory.getLogger(UserController.class);

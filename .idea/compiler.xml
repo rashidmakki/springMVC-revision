@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="HotelService" />
+        <module name="spring-secutiry-with-db" />
+        <module name="UserService" />
+        <module name="kafka-consumer" />
+        <module name="kafka-producer" />
+        <module name="SpringMVC" />
+        <module name="springmvc-hibernate" />
+        <module name="AuthService" />
+        <module name="spring-security" />
+        <module name="APIGateway" />
+        <module name="ConfigServer" />
+        <module name="ServiceRegistry" />
+        <module name="RatingService" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="kafka-consumer" options="" />
+      <module name="kafka-producer" options="" />
+      <module name="spring-security" options="" />
+      <module name="spring-secutiry-with-db" options="" />
+    </option>
+  </component>
+</project>

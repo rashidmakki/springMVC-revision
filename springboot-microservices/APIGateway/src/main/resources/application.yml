@@ -25,18 +25,26 @@ spring:
           uri : lb://USERSERVICE
           predicates:
             - Path=/users/**,/user-service/api-docs
+          filters:
+            - AuthenticationFilter
         - id: HOTEL-SERVICE
           uri: lb://HOTELSERVICE
           predicates:
             - Path=/hotels/**, /hotel-service/api-docs
+          filters:
+            - AuthenticationFilter
         - id: RATING-SERVICE
           uri: lb://RATINGSERVICE
           predicates:
             - Path=/ratings/**, /rating-service/api-docs
+          filters:
+            - AuthenticationFilter
         - id: AUTH-SERVICE
           uri: lb://AUTH
           predicates:
             - Path=/auth-service/api-docs,/auth/**, /home/**
+          filters:
+            - AuthenticationFilter
     discovery:
       enabled: true
 

@@ -2,6 +2,7 @@ package com.rating.service.ratingservice.controllers;
 
 import com.rating.service.ratingservice.entities.Rating;
 import com.rating.service.ratingservice.services.RatingService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/ratings")
+@SecurityRequirement(name = "Authorization")
 public class RatingController {
 
     @Autowired
