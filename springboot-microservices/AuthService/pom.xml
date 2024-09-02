@@ -13,7 +13,9 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>AuthService</name>
     <description>AuthService</description>
+    <packaging> jar </packaging>
     <properties>
+        <start-class>com.service.auth.AuthApplication</start-class>
         <java.version>17</java.version>
         <spring-cloud.version>2023.0.1</spring-cloud.version>
     </properties>

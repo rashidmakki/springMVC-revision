@@ -13,7 +13,9 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ConfigServer</name>
 	<description>ConfigServer</description>
+	<packaging> jar </packaging>
 	<properties>
+		<start-class>com.configuration.configserver.ConfigServerApplication</start-class>
 		<java.version>17</java.version>
 		<spring-cloud.version>2023.0.2</spring-cloud.version>
 	</properties>

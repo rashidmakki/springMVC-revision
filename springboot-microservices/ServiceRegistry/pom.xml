@@ -13,7 +13,9 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>ServiceRegistry</name>
     <description>ServiceRegistry</description>
+    <packaging> jar </packaging>
     <properties>
+        <start-class>com.service.serviceregistry.ServiceRegistryApplication</start-class>
         <java.version>17</java.version>
         <spring-cloud.version>2023.0.1</spring-cloud.version>
         <maven.compiler.source>17</maven.compiler.source>

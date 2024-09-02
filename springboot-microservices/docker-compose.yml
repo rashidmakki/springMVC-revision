@@ -1,0 +1,163 @@
+version: '3.8'
+
+services:
+  service-registry:
+    build: ./ServiceRegistry
+    container_name: service-registry
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8761:8761"
+    expose:
+      - '8761'
+    networks:
+      - local_network
+
+  config-server:
+    build: ./ConfigServer
+    container_name: config-server
+    ports:
+      - "8085:8085"
+    expose:
+      - "8085"
+    environment:
+      -SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://service-registry:8761/eureka"}}}}'
+    depends_on:
+      - service-registry
+    networks:
+      - local_network
+
+  auth-service:
+    build: ./AuthService
+    container_name: authentication-service
+    ports:
+      - "8086:8086"
+    expose:
+      - "8086"
+    environment:
+      - 'SPRING_APPLICATION_JSON={"eureka":{"client":{"serviceUrl":{"defaultZone":"http://service-registry:8761/eureka"}}}}'
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql_service:3306/microservices
+    depends_on:
+      - service-registry
+      - config-server
+      - mysql_service
+    networks:
+      - local_network
+
+  user-service:
+    build: ./UserService
+    container_name: user-service
+    ports:
+      - "8081:8081"
+    expose:
+      - "8081"
+    environment:
+      - 'SPRING_APPLICATION_JSON={"eureka":{"client":{"serviceUrl":{"defaultZone":"http://service-registry:8761/eureka"}}}}'
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql_service:3306/microservices
+    depends_on:
+      - service-registry
+      - config-server
+      - mysql_service
+    networks:
+      - local_network
+
+  hotel-service:
+    build: ./HotelService
+    container_name:  hotel-service
+    ports:
+      - "8082:8082"
+    expose:
+      - "8082"
+    environment:
+      - 'SPRING_APPLICATION_JSON={"eureka":{"client":{"serviceUrl":{"defaultZone":"http://service-registry:8761/eureka"}}}}'
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql_service:3306/microservices
+    depends_on:
+      - service-registry
+      - config-server
+      - mysql_service
+    networks:
+      - local_network
+
+  rating-service:
+    build: ./RatingService
+    container_name: rating-service
+    ports:
+      - "8083:8083"
+    expose:
+      - "8083"
+    environment:
+      - 'SPRING_APPLICATION_JSON={"eureka":{"client":{"serviceUrl":{"defaultZone":"http://service-registry:8761/eureka"}}}}'
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo-service:27017/
+      - SPRING_DATA_MONGODB_DATABASE=microservices
+    depends_on:
+      - service-registry
+      - config-server
+      - mongo-service
+    networks:
+      - local_network
+
+  api-gateway:
+    build: ./APIGateway
+    container_name: api-gateway
+    environment:
+      - 'SPRING_APPLICATION_JSON={"eureka":{"client":{"serviceUrl":{"defaultZone":"http://service-registry:8761/eureka"}}}}'
+      - SPRING_PROFILES_ACTIVE=docker
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY= TRACE
+    ports:
+      - "8084:8084"
+    expose:
+      - "8084"
+    depends_on:
+      - service-registry
+      - config-server
+    networks:
+      - local_network
+
+  mysql_service:
+    image: mysql:5.7
+    container_name: mysql_service
+    restart: always                       # always restart
+    environment:
+      MYSQL_DATABASE: 'microservices'              # name of database
+#      MYSQL_USER: 'root'                # sample is the name of user
+#      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_ROOT_PASSWORD: 'root'          # password for sample user
+       # password for root user
+    ports:
+      - '3306:3306'                       # host port 3306 is mapper to docker port 3306
+    expose:
+      - '3306'
+    volumes:
+      - mysql-db:/var/lib/mysql
+    networks:
+      - local_network
+
+  mongo-service:
+    image: mongo:latest
+    container_name: "mongo-service"
+    ports:
+      - "27017:27017"
+    expose:
+      - "27017"
+    environment:
+        - MONGO_INITDB_ROOT_USERNAME=root
+        - MONGO_INITDB_ROOT_PASSWORD=root
+        - MONGO_INITDB_DATABASE=microservices
+    volumes:
+      - ./data:/data/db
+    networks:
+      - local_network
+
+volumes:
+  mysql-db:
+  mongo-service:
+
+networks:
+  local_network:
+    driver: bridge
+
+

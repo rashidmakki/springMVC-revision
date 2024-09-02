@@ -13,7 +13,9 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>UserService</name>
     <description>UserService</description>
+    <packaging> jar </packaging>
     <properties>
+        <start-class>com.user.service.userservice.UserServiceApplication</start-class>
         <java.version>17</java.version>
         <spring-cloud.version>2023.0.1</spring-cloud.version>
     </properties>

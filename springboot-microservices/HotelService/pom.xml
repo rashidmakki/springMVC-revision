@@ -13,7 +13,9 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>HotelService</name>
     <description>HotelService</description>
+    <packaging> jar </packaging>
     <properties>
+        <start-class>com.hotel.service.hotelservice.HotelServiceApplication</start-class>
         <java.version>17</java.version>
         <spring-cloud.version>2023.0.1</spring-cloud.version>
     </properties>

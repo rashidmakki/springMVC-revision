@@ -3,15 +3,24 @@ spring:
     name: "Spring Boot Keycloak"
   security:
     oauth2:
-      client:
-        provider:
-          keycloak:
-            issuer-uri: http://localhost:8080/realms/springboot-keycloak
-        registration:
-          keycloak:
-            client-id: springboot-keycloak
-            client-secret: U1q5H350JIL1uMhJXSqCVw1um1urkzxJ
-            scope: openid+profile+email
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/springboot-keycloak
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+#    oauth2:
+#      client:
+#        provider:
+#          keycloak:
+#            issuer-uri: http://localhost:8080/realms/springboot-keycloak
+#        registration:
+#          keycloak:
+#            client-id: springboot-keycloak
+#            client-secret: U1q5H350JIL1uMhJXSqCVw1um1urkzxJ
+#            scope: openid+profile+email
 server:
   port: 9090
 
+token:
+  converter:
+    resource-id: springboot-keycloak
+    principal-attribute: shahzaib
